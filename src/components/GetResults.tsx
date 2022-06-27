@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
-// @ts-ignore
+
 const GetResults = (pageNumber: number) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -16,13 +16,12 @@ const GetResults = (pageNumber: number) => {
     let cancel
     axios({
       method: 'GET',
-      url: `https://randomuser.me/api/?page=${pageNumber}&&results=10`,
+      url: `https://randomuser.me/api/?page=${pageNumber}&&results=12`,
       cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
-        console.log('res :>> ', res)
         // @ts-ignore
-        setResults((prevResults: any[] = []) => {
+        setResults((prevResults) => {
           return [
             ...prevResults,
             ...res.data.results.map((res) => {

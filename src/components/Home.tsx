@@ -23,7 +23,7 @@ const Home = () => {
   }, [Navigate, savedEamil, savedPassword])
 
   const [pageNumber, setPageNumber] = useState(1)
-  // @ts-ignore
+
   const { results, hasMore, loading, error } = GetResults(pageNumber)
   console.log('results :>> ', results);
 
@@ -31,7 +31,7 @@ const Home = () => {
   const lastResultElementRef = useCallback(
     (node) => {
       if (loading) return
-
+      let {current}=observer;
       // @ts-ignore
       if (observer.current) observer.current.disconnect()
 
@@ -48,10 +48,6 @@ const Home = () => {
     [loading, hasMore]
   )
 
-  function handleSearch(e) {
-    setPageNumber(1)
-  }
-
   return (
     <MDBContainer className='mb-10'>
       <h1 className='text-center mx-3 my-2 mb-2'>User Data</h1>
@@ -59,7 +55,7 @@ const Home = () => {
         {results.map((result, index) => {
           if (results.length === index + 1) {
             return (
-              <MDBCol md='4' key={result} ref={lastResultElementRef}>
+              <MDBCol  className='d-flex align-items-center justify-content-center' md='3' sm='6' xs='12' key={result} ref={lastResultElementRef}>
                 <MDBCard style={{ width: '18rem' }}>
                   <MDBCardImage
                   // @ts-ignore
@@ -70,7 +66,7 @@ const Home = () => {
                   <MDBCardBody>
                     <MDBCardText>
                       <h5>Name : {result[1]}</h5>
-                      <h6>Email : {result[0]}</h6>
+                      <h5>Email : {result[0]}</h5>
                     </MDBCardText>
                   </MDBCardBody>
                 </MDBCard>
@@ -78,7 +74,7 @@ const Home = () => {
             )
           } else {
             return (
-              <MDBCol md='4' key={result}>
+              <MDBCol className='d-flex align-items-center justify-content-center'  md='3' sm='6' xs='12' key={result}>
                 <MDBCard style={{ width: '18rem' }}>
                   <MDBCardImage
                   // @ts-ignore
@@ -99,7 +95,7 @@ const Home = () => {
         })}
       </MDBRow>
 
-      <div>{loading && <Loader/>}</div>
+      <div className='text-center'>{loading && <Loader/>}</div>
       <div>{error && 'Error'}</div>
     </MDBContainer>
   )
