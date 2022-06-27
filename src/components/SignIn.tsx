@@ -7,15 +7,16 @@ import {
   MDBBtn,
   MDBContainer
 } from 'mdb-react-ui-kit';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const SignIn = () => {
-  
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const Navigate = useNavigate()
+  const savedEamil = localStorage.getItem('email')
+  const savedPassword = localStorage.getItem('password')
   useEffect(() => {
-    if(localStorage.getItem('email') && localStorage.getItem('password')) setIsLoggedIn(true);
-  },[]);
+    if(savedEamil && savedPassword) Navigate('/home')
+  },[Navigate, savedEamil, savedPassword]);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,17 +25,14 @@ const SignIn = () => {
     e.preventDefault()
     localStorage.setItem('email', email);
     localStorage.setItem('password', password);
-    setIsLoggedIn(true)
+    Navigate('/home')
   }
 
   return (
-    <MDBContainer>        
-      {isLoggedIn && (
-        <Navigate to="/home" />
-      )}
-        <form className='fix-center' onSubmit={submitHandler}>
-        <MDBInput className='mb-4' type='email' id='form1Example1' label='Email address' value={email} onChange={(e) => setEmail(e.target.value)} />
-        <MDBInput className='mb-4' type='password' id='form1Example2' label='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+    <MDBContainer>
+        <form onSubmit={submitHandler} className="padform">
+        <MDBInput className='mb-4 w-50' type='email' id='form1Example1' label='Email address' value={email} onChange={(e) => setEmail(e.target.value)} />
+        <MDBInput className='mb-4 w-50' type='password' id='form1Example2' label='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
 
         <MDBRow className='mb-4'>
             <MDBCol className='d-flex justify-content-center'>
