@@ -1,14 +1,11 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
-
 const GetResults = (pageNumber: number) => {
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-  const [results, setResults] = useState([])
-  const [hasMore, setHasMore] = useState(false)
-
-  console.log('pageNumber :>> ', pageNumber)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<boolean>(false)
+  const [results, setResults] = useState<any>([])
+  const [hasMore, setHasMore] = useState<boolean>(false)
 
   useEffect(() => {
     setLoading(true)
@@ -20,12 +17,11 @@ const GetResults = (pageNumber: number) => {
       cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
-        // @ts-ignore
         setResults((prevResults) => {
           return [
             ...prevResults,
             ...res.data.results.map((res) => {
-              return [res.email,res.name.first,res.picture.large]
+              return [res.email, res.name.first, res.picture.large]
             }),
           ]
         })
